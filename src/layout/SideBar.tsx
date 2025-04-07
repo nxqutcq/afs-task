@@ -1,4 +1,4 @@
-import '../../styles/global.scss';
+import '../styles/global.scss';
 import {
   Briefcase,
   Contractor,
@@ -6,7 +6,7 @@ import {
   Settings,
   SignOut,
   User,
-} from '../shared/icons';
+} from '../components/shared/icons';
 
 export const SideBar = () => {
   return (
@@ -15,7 +15,7 @@ export const SideBar = () => {
         <div className="menu-header">
           <img src="/icons/OakTree.svg" height={36} width={36} alt="OakTree" />
           <div className="menu-icon-wrapper">
-            <Briefcase height={20} color='white' width={20} />
+            <Briefcase height={20} color="white" width={20} />
           </div>
           <div className="menu-icon-wrapper">
             <MagnifyingGlass height={20} width={20} />

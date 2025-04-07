@@ -1,4 +1,4 @@
-import '../styles/global.scss';
+import './styles/global.scss';
 import { Content } from './components/Content';
 import { SideBar } from './layout/SideBar';
 
