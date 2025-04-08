@@ -87,8 +87,9 @@
     border-radius: 8px;
     display: flex;
     align-items: center;
-    justify-content: start;
+    justify-content: space-between;
     cursor: pointer;
+    
     font-weight: 600;
     font-size: 13px;
     line-height: 20px;
@@ -97,7 +98,6 @@
     padding-block: 10px;
     padding-left: 12px;
     gap: 12px;
-    text-align: center;
 
     svg {
       stroke: rgba(59, 59, 59, 1);

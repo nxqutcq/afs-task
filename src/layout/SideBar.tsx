@@ -7,6 +7,8 @@ import {
   SignOut,
   User,
 } from '../components/shared/icons';
+import { NavLink } from 'react-router-dom';
+import { ROUTES } from '../routes';
 
 export const SideBar = () => {
   return (
@@ -15,19 +17,27 @@ export const SideBar = () => {
         <div className="menu-header">
           <img src="/icons/OakTree.svg" height={36} width={36} alt="OakTree" />
           <div className="menu-icon-wrapper">
-            <Briefcase height={20} color="white" width={20} />
+            <NavLink to={ROUTES.ORGANIZATIONS}>
+              <Briefcase height={20} color="white" width={20} />
+            </NavLink>
           </div>
           <div className="menu-icon-wrapper">
-            <MagnifyingGlass height={20} width={20} />
+            <NavLink to={ROUTES.SEARCH}>
+              <MagnifyingGlass height={20} width={20} />
+            </NavLink>
           </div>
         </div>
         <div className="menu-footer">
           <hr className="menu__divider" />
           <div className="menu-icon-wrapper">
-            <Settings height={20} width={20} />
+            <NavLink to={ROUTES.SETTINGS}>
+              <Settings height={20} width={20} />
+            </NavLink>
           </div>
           <div className="menu-icon-wrapper">
-            <SignOut height={20} width={20} />
+            <NavLink to={ROUTES.SIGNOUT}>
+              <SignOut height={20} width={20} />
+            </NavLink>
           </div>
         </div>
       </div>
@@ -42,15 +52,15 @@ export const SideBar = () => {
             <nav className="sidebar__nav">
               <div className="sidebar__nav-item">
                 <Briefcase height={16} width={16} />
-                Organizations
+                <NavLink to={ROUTES.ORGANIZATIONS}>Organizations</NavLink>
               </div>
               <div className="sidebar__nav-item">
                 <Contractor height={16} width={16} />
-                Contractors
+                <NavLink to={ROUTES.CONTRACTORS}>Contractors</NavLink>
               </div>
               <div className="sidebar__nav-item">
                 <User height={16} width={16} />
-                Clients
+                <NavLink to={ROUTES.CLIENTS}>Clients</NavLink>
               </div>
             </nav>
           </div>
