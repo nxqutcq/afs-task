@@ -8,6 +8,13 @@
   background: rgba(59, 59, 59, 1);
   justify-content: space-between;
 
+  &__divider {
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.2);
+    width: 19px;
+  }
+
   .menu-footer {
     display: flex;
     flex-direction: column;
@@ -28,9 +35,15 @@
     display: flex;
     justify-content: center;
     max-width: 36px;
-    padding: 8px;
     border-radius: 8px;
     cursor: pointer;
+
+    a {
+      display: flex;
+      width: 100%;
+      padding: 8px;
+      border-radius: 8px;
+    }
 
     &:hover {
       background-color: rgba(255, 255, 255, 0.2);

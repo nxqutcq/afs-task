@@ -51,16 +51,25 @@ export const SideBar = () => {
             <hr className="sidebar__divider--primary" />
             <nav className="sidebar__nav">
               <div className="sidebar__nav-item">
-                <Briefcase height={16} width={16} />
-                <NavLink to={ROUTES.ORGANIZATIONS}>Organizations</NavLink>
+                <NavLink
+                  to={ROUTES.ORGANIZATIONS}
+                  className="sidebar__nav-link"
+                >
+                  <Briefcase height={16} width={16} />
+                  <span>Organizations</span>
+                </NavLink>
               </div>
               <div className="sidebar__nav-item">
-                <Contractor height={16} width={16} />
-                <NavLink to={ROUTES.CONTRACTORS}>Contractors</NavLink>
+                <NavLink to={ROUTES.CONTRACTORS} className="sidebar__nav-link">
+                  <Contractor height={16} width={16} />
+                  <span>Contractors</span>
+                </NavLink>
               </div>
               <div className="sidebar__nav-item">
-                <User height={16} width={16} />
-                <NavLink to={ROUTES.CLIENTS}>Clients</NavLink>
+                <NavLink to={ROUTES.CLIENTS}>
+                  <User height={16} width={16} />
+                  <span>Clients</span>
+                </NavLink>
               </div>
             </nav>
           </div>

@@ -12,13 +12,6 @@
   padding-top: 20px;
   padding-inline: 20px;
 
-  &__divider {
-    border: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    color: rgba(255, 255, 255, 0.2);
-    width: 19px;
-  }
-
   &__divider--primary {
     width: 100%;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
@@ -84,20 +77,28 @@
 
   &__nav-item {
     border: 1px rgba(0, 0, 0, 0.2) solid;
-    border-radius: 8px;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
-    
+    border-radius: 8px;
+
     font-weight: 600;
     font-size: 13px;
     line-height: 20px;
     letter-spacing: 0.48px;
-    padding-right: 40px;
-    padding-block: 10px;
-    padding-left: 12px;
-    gap: 12px;
+
+    a {
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      width: 100%;
+      padding-right: 40px;
+      padding-block: 10px;
+      padding-left: 12px;
+      gap: 12px;
+      text-decoration: none;
+      color: rgba(59, 59, 59, 1);
+    }
 
     svg {
       stroke: rgba(59, 59, 59, 1);
@@ -107,6 +108,10 @@
       background-color: rgba(59, 59, 59, 1);
       color: rgba(255, 255, 255, 0.95);
       box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.12);
+
+      a {
+        color: rgba(255, 255, 255, 0.95);
+      }
 
       svg {
         stroke: rgba(255, 255, 255, 1);
