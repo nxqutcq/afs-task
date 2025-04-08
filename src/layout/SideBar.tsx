@@ -27,8 +27,8 @@ export const SideBar = () => {
             </NavLink>
           </div>
         </div>
+        <hr className="menu__divider" />
         <div className="menu-footer">
-          <hr className="menu__divider" />
           <div className="menu-icon-wrapper">
             <NavLink to={ROUTES.SETTINGS}>
               <Settings height={20} width={20} />
@@ -53,22 +53,21 @@ export const SideBar = () => {
               <div className="sidebar__nav-item">
                 <NavLink
                   to={ROUTES.ORGANIZATIONS}
-                  className="sidebar__nav-link"
                 >
                   <Briefcase height={16} width={16} />
-                  <span>Organizations</span>
+                  <span className="sidebar__nav-item-text">Organizations</span>
                 </NavLink>
               </div>
               <div className="sidebar__nav-item">
-                <NavLink to={ROUTES.CONTRACTORS} className="sidebar__nav-link">
+                <NavLink to={ROUTES.CONTRACTORS}>
                   <Contractor height={16} width={16} />
-                  <span>Contractors</span>
+                  <span className="sidebar__nav-item-text">Contractors</span>
                 </NavLink>
               </div>
               <div className="sidebar__nav-item">
                 <NavLink to={ROUTES.CLIENTS}>
                   <User height={16} width={16} />
-                  <span>Clients</span>
+                  <span className="sidebar__nav-item-text">Clients</span>
                 </NavLink>
               </div>
             </nav>

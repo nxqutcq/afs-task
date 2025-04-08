@@ -79,12 +79,20 @@
     border: 1px rgba(0, 0, 0, 0.2) solid;
     display: flex;
     border-radius: 8px;
-
+    align-items: center;
+    justify-content: center;
     font-weight: 600;
     font-size: 13px;
     line-height: 20px;
     letter-spacing: 0.48px;
-
+    
+    &-text {
+      width: 130px;
+      height: 20px;
+      align-items: center;
+      justify-content: center;
+      display: flex;
+    }
     a {
       border-radius: 8px;
       display: flex;

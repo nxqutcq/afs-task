@@ -1,10 +1,9 @@
 .menu {
   display: flex;
-  height: 100%;
   padding-inline: 6px;
+  padding-block: 20px;
   align-items: center;
   flex-direction: column;
-  gap: 20px;
   background: rgba(59, 59, 59, 1);
   justify-content: space-between;
 
@@ -13,6 +12,7 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     color: rgba(255, 255, 255, 0.2);
     width: 19px;
+    margin-bottom: 20px;
   }
 
   .menu-footer {
@@ -27,7 +27,6 @@
     align-items: center;
     gap: 20px;
     height: 100%;
-    padding-top: 20px;
   }
 
   &-icon-wrapper {
@@ -55,6 +54,5 @@
     justify-content: center;
     flex-direction: column;
     gap: 20px;
-    padding-bottom: 20px;
   }
 }
