@@ -6,9 +6,12 @@ import { Edit } from './shared/icons/Edit';
 import { contactsStore } from '../store/ContactsStore';
 import { Trash } from './shared/icons/Trash';
 import { AddPhoto } from './shared/icons/AddPhoto';
+import { Dialog } from './shared/Dialog';
+import { formatIsoToDate } from '../utils/formatIsoToDate';
 
 export const Content = () => {
   const token = 'YOUR_AUTH_TOKEN_HERE';
+  const [showDialog, setShowDialog] = useState(false);
   const companyId = '12';
   const contactId = '16';
 
@@ -51,8 +54,18 @@ export const Content = () => {
   return (
     <main className="content">
       {/* <button className="content__chevron-btn">back</button> */}
+      <Dialog
+        isOpen={showDialog}
+        onClose={() => setShowDialog(false)}
+        title="Regular Dialog"
+      >
+        <p>Standard content here</p>
+        <button onClick={() => setShowDialog(false)}>Close</button>
+      </Dialog>
       <div className="content__main">
-        <span className="content__company-name">{companyStore.company?.name}</span>
+        <span className="content__company-name">
+          {companyStore.company?.name}
+        </span>
         <div className="content__item">
           <div className="company-card">
             {editMode ? (
@@ -103,7 +116,7 @@ export const Content = () => {
                 <p>
                   <strong>Agreement:</strong>{' '}
                   {companyStore.company?.contract.no} /{' '}
-                  {companyStore.company?.contract.issue_date}
+                  {formatIsoToDate(companyStore.company!.contract.issue_date)}
                 </p>
                 <p>
                   <strong>Business entity: </strong>{' '}
@@ -128,10 +141,13 @@ export const Content = () => {
               </div>
             </div>
             <div className="content__item__contact-footer">
-              <span>
-                Responsible person:{contactsStore.contacts?.firstname}{' '}
-                {contactsStore.contacts?.lastname}
-              </span>
+              <div>
+                <span>Responsible person:</span>
+                <span>
+                  {contactsStore.contacts?.firstname}{' '}
+                  {contactsStore.contacts?.lastname}
+                </span>
+              </div>
               <span>Phone number:{contactsStore.contacts?.phone}</span>
               <span>E-mail:{contactsStore.contacts?.email}</span>
             </div>
@@ -141,7 +157,10 @@ export const Content = () => {
         <div className="content__item">
           <div className="content__item__photo-header">
             <span>Photos</span>
-            <div className="company-card__view-btn">
+            <div
+              onClick={() => setShowDialog(true)}
+              className="company-card__view-btn"
+            >
               <AddPhoto width={16} height={16} />
               <span>Add</span>
             </div>
