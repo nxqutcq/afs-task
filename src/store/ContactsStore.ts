@@ -1,8 +1,8 @@
 import { makeAutoObservable } from 'mobx';
-import { Company } from '../types/company';
+import { Contacts } from '../types/contacts';
 
-class CompanyStore {
-  company: Company | null = null;
+class ContactsStore {
+  contacts: Contacts | null = null;
   loading: boolean = false;
   error: string = '';
   token: string | null = null;
@@ -32,12 +32,12 @@ class CompanyStore {
     return this.token;
   }
 
-  async fetchCompany(companyId: string, username: string) {
+  async fetchContact(contactId: string, username: string) {
     this.loading = true;
     try {
       const token = await this.ensureAuthToken(username);
       const response = await fetch(
-        `https://test-task-api.allfuneral.com/companies/${companyId}`,
+        `https://test-task-api.allfuneral.com/contacts/${contactId}`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -46,9 +46,9 @@ class CompanyStore {
         }
       );
       if (!response.ok) {
-        throw new Error('Failed to fetch company');
+        throw new Error('Failed to fetch contact');
       }
-      this.company = await response.json();
+      this.contacts = await response.json();
     } catch (err: unknown) {
       if (err instanceof Error) {
         this.error = err.message;
@@ -60,16 +60,16 @@ class CompanyStore {
     }
   }
 
-  async updateCompany(
-    updatedData: Partial<Company>,
-    companyId: string,
+  async updateContacts(
+    updatedData: Partial<Contacts>,
+    contactId: string,
     username: string
   ) {
     this.loading = true;
     try {
       const token = await this.ensureAuthToken(username);
       const response = await fetch(
-        `https://test-task-api.allfuneral.com/companies/${companyId}`,
+        `https://test-task-api.allfuneral.com/contacts/${contactId}`,
         {
           method: 'PATCH',
           headers: {
@@ -80,9 +80,9 @@ class CompanyStore {
         }
       );
       if (!response.ok) {
-        throw new Error('Failed to update company');
+        throw new Error('Failed to update contact');
       }
-      this.company = await response.json();
+      this.contacts = await response.json();
     } catch (err: unknown) {
       if (err instanceof Error) {
         this.error = err.message;
@@ -95,4 +95,4 @@ class CompanyStore {
   }
 }
 
-export const companyStore = new CompanyStore();
+export const contactsStore = new ContactsStore();

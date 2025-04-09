@@ -45,15 +45,13 @@ export const SideBar = () => {
         <div className="sidebar__content">
           <div className="sidebar_content_wrapper">
             <div className="sidebar__header">
-              <span className="sidebar__title">Oak Tree cemetery</span>
+              <span className="sidebar__title">Oak Tree Cemetery</span>
               <span className="sidebar__subtitle">Process Manager</span>
             </div>
             <hr className="sidebar__divider--primary" />
             <nav className="sidebar__nav">
               <div className="sidebar__nav-item">
-                <NavLink
-                  to={ROUTES.ORGANIZATIONS}
-                >
+                <NavLink to={ROUTES.ORGANIZATIONS}>
                   <Briefcase height={16} width={16} />
                   <span className="sidebar__nav-item-text">Organizations</span>
                 </NavLink>
