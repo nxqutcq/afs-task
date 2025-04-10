@@ -4,10 +4,9 @@ import { companyStore } from '../store/CompanyStore';
 import { AddPhoto } from './shared/icons/AddPhoto';
 import { Trash } from './shared/icons/Trash';
 import { SkeletonPhoto } from './shared/SkeletonPhoto';
+import { companyId, token } from '../constants';
 
 export const PhotosSection = observer(() => {
-  const companyId = '12';
-  const token = 'YOUR_AUTH_TOKEN_HERE';
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
