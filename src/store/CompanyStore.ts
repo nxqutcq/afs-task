@@ -6,6 +6,7 @@ class CompanyStore {
   loading: boolean = false;
   error: string = '';
   token: string | null = null;
+  photoLoading: boolean = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -95,7 +96,7 @@ class CompanyStore {
   }
 
   async addImage(file: File, companyId: string, username: string) {
-    this.loading = true;
+    this.photoLoading = true;
     try {
       const token = await this.ensureAuthToken(username);
       const formData = new FormData();
@@ -117,7 +118,6 @@ class CompanyStore {
       }
 
       const imageData = await response.json();
-
       if (this.company) {
         this.company.photos.push(imageData);
       }
@@ -128,12 +128,12 @@ class CompanyStore {
         this.error = String(err);
       }
     } finally {
-      this.loading = false;
+      this.photoLoading = false;
     }
   }
 
   async deleteImage(imageName: string, companyId: string, username: string) {
-    this.loading = true;
+    this.photoLoading = true;
     try {
       const token = await this.ensureAuthToken(username);
       const response = await fetch(
@@ -148,7 +148,6 @@ class CompanyStore {
       if (!response.ok) {
         throw new Error('Failed to delete image');
       }
-
       if (this.company) {
         this.company.photos = this.company.photos.filter(
           (photo) => photo.name !== imageName
@@ -161,7 +160,7 @@ class CompanyStore {
         this.error = String(err);
       }
     } finally {
-      this.loading = false;
+      this.photoLoading = false;
     }
   }
 }

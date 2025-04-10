@@ -3,11 +3,11 @@ import { observer } from 'mobx-react-lite';
 import { companyStore } from '../store/CompanyStore';
 import { AddPhoto } from './shared/icons/AddPhoto';
 import { Trash } from './shared/icons/Trash';
+import { SkeletonPhoto } from './shared/SkeletonPhoto';
 
 export const PhotosSection = observer(() => {
   const companyId = '12';
   const token = 'YOUR_AUTH_TOKEN_HERE';
-
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,6 +23,8 @@ export const PhotosSection = observer(() => {
   const handleDeleteImage = async (imageName: string) => {
     await companyStore.deleteImage(imageName, companyId, token);
   };
+
+  const skeletonCount = 3;
 
   return (
     <div className="content__item">
@@ -43,24 +45,37 @@ export const PhotosSection = observer(() => {
         />
       </div>
       <div className="content__item__photos">
-        {companyStore.company?.photos?.map((photo, index) => (
-          <div
-            className="content__item__photos-item"
-            key={photo.thumbpath || index}
-          >
-            <img loading="lazy" src={photo.thumbpath} alt={'Photo ' + index} />
-            <div
-              className="content__item__photos-item-trash"
-              onClick={() => handleDeleteImage(photo.name)}
-            >
-              <Trash
-                width={16}
-                height={16}
-                className="content__item__photos-item-trash-icon"
-              />
-            </div>
-          </div>
-        ))}
+        {companyStore.photoLoading
+          ? Array.from({ length: skeletonCount }).map((_, index) => (
+              <div
+                className="content__item__photos-item"
+                key={`skeleton-${index}`}
+              >
+                <SkeletonPhoto />
+              </div>
+            ))
+          : companyStore.company?.photos?.map((photo, index) => (
+              <div
+                className="content__item__photos-item"
+                key={photo.thumbpath || index}
+              >
+                <img
+                  loading="lazy"
+                  src={photo.thumbpath}
+                  alt={`Photo ${index}`}
+                />
+                <div
+                  className="content__item__photos-item-trash"
+                  onClick={() => handleDeleteImage(photo.name)}
+                >
+                  <Trash
+                    width={16}
+                    height={16}
+                    className="content__item__photos-item-trash-icon"
+                  />
+                </div>
+              </div>
+            ))}
       </div>
     </div>
   );
