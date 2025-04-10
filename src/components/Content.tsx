@@ -5,13 +5,12 @@ import { formatCompanyTypes } from '../utils/formatCompanyTypes';
 import { Edit } from './shared/icons/Edit';
 import { contactsStore } from '../store/ContactsStore';
 import { Trash } from './shared/icons/Trash';
-import { AddPhoto } from './shared/icons/AddPhoto';
-import { Dialog } from './shared/Dialog';
 import { formatIsoToDate } from '../utils/formatIsoToDate';
+import { observer } from 'mobx-react-lite';
+import { PhotosSection } from './PhotosSection';
 
-export const Content = () => {
+export const Content = observer(() => {
   const token = 'YOUR_AUTH_TOKEN_HERE';
-  const [showDialog, setShowDialog] = useState(false);
   const companyId = '12';
   const contactId = '16';
 
@@ -50,22 +49,24 @@ export const Content = () => {
     return <div>Loading...</div>;
   if (companyStore.error || contactsStore.error)
     return <div>Error: {companyStore.error}</div>;
+  if (!companyStore.company) return <div>No company data available</div>;
 
   return (
     <main className="content">
-      {/* <button className="content__chevron-btn">back</button> */}
-      <Dialog
-        isOpen={showDialog}
-        onClose={() => setShowDialog(false)}
-        title="Regular Dialog"
-      >
-        <p>Standard content here</p>
-        <button onClick={() => setShowDialog(false)}>Close</button>
-      </Dialog>
       <div className="content__main">
-        <span className="content__company-name">
-          {companyStore.company?.name}
-        </span>
+        <div className="content__company-name-wrapper">
+          <span className="content__company-name">
+            {companyStore.company?.name}
+          </span>
+          <div className="content__icons-wrapper">
+            <div>
+              <Edit width={20} height={20} />
+            </div>
+            <div>
+              <Trash color="red" width={20} height={20} />
+            </div>
+          </div>
+        </div>
         <div className="content__item">
           <div className="company-card">
             {editMode ? (
@@ -153,41 +154,8 @@ export const Content = () => {
             </div>
           </div>
         </div>
-
-        <div className="content__item">
-          <div className="content__item__photo-header">
-            <span>Photos</span>
-            <div
-              onClick={() => setShowDialog(true)}
-              className="company-card__view-btn"
-            >
-              <AddPhoto width={16} height={16} />
-              <span>Add</span>
-            </div>
-          </div>
-          <div className="content__item__photos">
-            {companyStore.company?.photos?.map((photo, index) => (
-              <div
-                className="content__item__photos-item"
-                key={photo.thumbpath || index}
-              >
-                <img
-                  loading="lazy"
-                  src={photo.thumbpath}
-                  alt={'Photo ' + index}
-                />
-                <div className="content__item__photos-item-trash">
-                  <Trash
-                    width={16}
-                    height={16}
-                    className="content__item__photos-item-trash-icon"
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <PhotosSection />
       </div>
     </main>
   );
-};
+});
