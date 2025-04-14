@@ -19,5 +19,5 @@ export interface Photo {
   name: string;
   filepath: string;
   thumbpath: string;
-  createdAt: string;
+  createdAt?: string;
 }

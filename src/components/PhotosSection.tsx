@@ -3,13 +3,11 @@ import { observer } from 'mobx-react-lite';
 import { companyStore } from '../store/CompanyStore';
 import { AddPhoto } from './shared/icons/AddPhoto';
 import { Trash } from './shared/icons/Trash';
-import { SkeletonPhoto } from './shared/SkeletonPhoto';
-import { companyId, token } from '../constants';
 import { FullScreenImageModal } from './shared/FullScreenImageModal';
+import { companyId, token } from '../constants';
 
 export const PhotosSection = observer(() => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -24,15 +22,17 @@ export const PhotosSection = observer(() => {
   };
 
   const handleDeleteImage = async (imageName: string) => {
-    await companyStore.deleteImage(imageName, companyId, token);
+    try {
+      await companyStore.optimisticDeleteImage(imageName, companyId, token);
+    } catch (error) {
+      console.error('Ошибка при удалении фото:', error);
+    }
   };
 
   const handleImageClick = (imageUrl: string) => {
     setSelectedImage(imageUrl);
     setIsModalOpen(true);
   };
-
-  const skeletonCount = 3;
 
   return (
     <div className="content__item">
@@ -58,16 +58,7 @@ export const PhotosSection = observer(() => {
         />
       </div>
       <div className="content__item__photos">
-        {companyStore.photoLoading ? (
-          Array.from({ length: skeletonCount }).map((_, index) => (
-            <div
-              className="content__item__photos-item"
-              key={`skeleton-${index}`}
-            >
-              <SkeletonPhoto />
-            </div>
-          ))
-        ) : companyStore.company?.photos?.length ? (
+        {companyStore.company?.photos?.length ? (
           companyStore.company.photos.map((photo, index) => (
             <div
               className="content__item__photos-item"

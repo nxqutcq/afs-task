@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import { Company } from '../types/company';
+import { Company, Photo } from '../types/company';
 
 class CompanyStore {
   company: Company | null = null;
@@ -96,7 +96,20 @@ class CompanyStore {
   }
 
   async addImage(file: File, companyId: string, username: string) {
+    const tempId = `temp-${Date.now()}`;
+
+    const optimisticImage: Photo = {
+      name: tempId,
+      thumbpath: URL.createObjectURL(file),
+      filepath: '',
+    };
+
+    if (this.company) {
+      this.company.photos.push(optimisticImage);
+    }
+
     this.photoLoading = true;
+
     try {
       const token = await this.ensureAuthToken(username);
       const formData = new FormData();
@@ -118,10 +131,21 @@ class CompanyStore {
       }
 
       const imageData = await response.json();
+
       if (this.company) {
-        this.company.photos.push(imageData);
+        const index = this.company.photos.findIndex(
+          (photo) => photo.name === tempId
+        );
+        if (index !== -1) {
+          this.company.photos[index] = imageData;
+        }
       }
     } catch (err: unknown) {
+      if (this.company) {
+        this.company.photos = this.company.photos.filter(
+          (photo) => photo.name !== tempId
+        );
+      }
       if (err instanceof Error) {
         this.error = err.message;
       } else {
@@ -132,35 +156,43 @@ class CompanyStore {
     }
   }
 
-  async deleteImage(imageName: string, companyId: string, username: string) {
-    this.photoLoading = true;
-    try {
-      const token = await this.ensureAuthToken(username);
-      const response = await fetch(
-        `https://test-task-api.allfuneral.com/companies/${companyId}/image/${imageName}`,
-        {
-          method: 'DELETE',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+  async optimisticDeleteImage(
+    imageName: string,
+    companyId: string,
+    username: string
+  ) {
+    if (this.company) {
+      const backupPhotos = [...this.company.photos];
+      this.company.photos = this.company.photos.filter(
+        (photo) => photo.name !== imageName
       );
-      if (!response.ok) {
-        throw new Error('Failed to delete image');
-      }
-      if (this.company) {
-        this.company.photos = this.company.photos.filter(
-          (photo) => photo.name !== imageName
+      this.photoLoading = true;
+
+      try {
+        const token = await this.ensureAuthToken(username);
+        const response = await fetch(
+          `https://test-task-api.allfuneral.com/companies/${companyId}/image/${imageName}`,
+          {
+            method: 'DELETE',
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
+        if (!response.ok) {
+          throw new Error('Failed to delete image');
+        }
+      } catch (err: unknown) {
+        this.company.photos = backupPhotos;
+        if (err instanceof Error) {
+          this.error = err.message;
+        } else {
+          this.error = String(err);
+        }
+        throw err;
+      } finally {
+        this.photoLoading = false;
       }
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        this.error = err.message;
-      } else {
-        this.error = String(err);
-      }
-    } finally {
-      this.photoLoading = false;
     }
   }
 }
