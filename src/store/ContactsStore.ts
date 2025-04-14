@@ -82,6 +82,7 @@ class ContactsStore {
       if (!response.ok) {
         throw new Error('Failed to update contact');
       }
+      console.log('Updated contact:', response);
       this.contacts = await response.json();
     } catch (err: unknown) {
       if (err instanceof Error) {

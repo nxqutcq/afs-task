@@ -3,10 +3,10 @@ import { Company } from '../types/company';
 
 class CompanyStore {
   company: Company | null = null;
-  loading: boolean = false;
   error: string = '';
   token: string | null = null;
   photoLoading: boolean = false;
+  detailsLoading: boolean = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -34,7 +34,7 @@ class CompanyStore {
   }
 
   async fetchCompany(companyId: string, username: string) {
-    this.loading = true;
+    this.detailsLoading = true;
     try {
       const token = await this.ensureAuthToken(username);
       const response = await fetch(
@@ -57,7 +57,7 @@ class CompanyStore {
         this.error = String(err);
       }
     } finally {
-      this.loading = false;
+      this.detailsLoading = false;
     }
   }
 
@@ -66,7 +66,7 @@ class CompanyStore {
     companyId: string,
     username: string
   ) {
-    this.loading = true;
+    this.detailsLoading = true;
     try {
       const token = await this.ensureAuthToken(username);
       const response = await fetch(
@@ -91,7 +91,7 @@ class CompanyStore {
         this.error = String(err);
       }
     } finally {
-      this.loading = false;
+      this.detailsLoading = false;
     }
   }
 

@@ -1,14 +1,16 @@
 import { Edit } from './shared/icons/Edit';
 import { Trash } from './shared/icons/Trash';
 
-type ComapanyNameProps = {
-  name: string;
-};
-
-export const ComapanyName = ({ name }: ComapanyNameProps) => {
+export const ComapanyName = () => {
   return (
     <div className="content__company-name-wrapper">
-      <span className="content__company-name">{name}</span>
+      {/* <Dialog title={`Specify the Organization's name`}>
+        <label>
+          Название:
+          <input name="name" value={formData.name} onChange={handleChange} />
+        </label>
+      </Dialog> */}
+      <span className="content__company-name">{}</span>
       <div className="content__icons-wrapper">
         <div>
           <Edit width={20} height={20} />
