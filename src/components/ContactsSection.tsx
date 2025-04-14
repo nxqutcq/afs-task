@@ -53,46 +53,37 @@ export const ContactsSection = observer(() => {
     setEmail(e.target.value);
   };
 
-  const handleSave = async () => {
+  const handleSave = () => {
     setErrorMessage('');
 
     if (!validatePhone(phone)) {
       setErrorMessage('Incorrect phone format');
       return;
     }
-
     const nameParts = fullName.trim().split(' ');
     if (nameParts.length < 2) {
       setErrorMessage('Incorrect firstname or lastname');
       return;
     }
     const [firstname, lastname] = nameParts;
-
     if (!validateName(firstname) || !validateName(lastname)) {
       setErrorMessage('Incorrect firstname or lastname');
       return;
     }
-
     if (!validateEmail(email)) {
       setErrorMessage('Incorrect email');
       return;
     }
 
-    const updatedData = {
-      firstname,
-      lastname,
-      phone,
-      email,
-    };
+    const updatedData = { firstname, lastname, phone, email };
 
-    try {
-      await contactsStore.updateContacts(updatedData, contactId, token);
-      setEditMode(false);
-    } catch (err) {
+    setEditMode(false);
+
+    contactsStore.updateContacts(updatedData, contactId, token).catch((err) => {
       const errorMessageText =
         err instanceof Error ? err.message : 'An error occurred';
       setErrorMessage(errorMessageText);
-    }
+    });
   };
 
   return (
@@ -138,7 +129,7 @@ export const ContactsSection = observer(() => {
           </div>
           <div className="content__item__contact-footer">
             <div>
-              <span>Responsible person:</span>
+              <span>Responsible person: </span>
               <span>
                 {contactsStore.contacts?.firstname}{' '}
                 {contactsStore.contacts?.lastname}

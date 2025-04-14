@@ -65,6 +65,12 @@ class ContactsStore {
     contactId: string,
     username: string
   ) {
+    const backupContacts = this.contacts ? { ...this.contacts } : null;
+
+    if (this.contacts) {
+      this.contacts = { ...this.contacts, ...updatedData };
+    }
+
     this.loading = true;
     try {
       const token = await this.ensureAuthToken(username);
@@ -82,14 +88,17 @@ class ContactsStore {
       if (!response.ok) {
         throw new Error('Failed to update contact');
       }
-      console.log('Updated contact:', response);
       this.contacts = await response.json();
     } catch (err: unknown) {
+      if (backupContacts) {
+        this.contacts = backupContacts;
+      }
       if (err instanceof Error) {
         this.error = err.message;
       } else {
         this.error = String(err);
       }
+      throw err;
     } finally {
       this.loading = false;
     }
