@@ -4,10 +4,11 @@ import { Company, Photo } from '../types/company';
 class CompanyStore {
   company: Company | null = null;
   error: string = '';
+  photoError: string = '';
   token: string | null = null;
   photoLoading: boolean = false;
   detailsLoading: boolean = false;
-
+  isFetching: boolean = false;
   constructor() {
     makeAutoObservable(this);
   }
@@ -34,7 +35,7 @@ class CompanyStore {
   }
 
   async fetchCompany(companyId: string, username: string) {
-    this.detailsLoading = true;
+    this.isFetching = true;
     try {
       const token = await this.ensureAuthToken(username);
       const response = await fetch(
@@ -50,6 +51,7 @@ class CompanyStore {
         throw new Error('Failed to fetch company');
       }
       this.company = await response.json();
+      this.error = '';
     } catch (err: unknown) {
       if (err instanceof Error) {
         this.error = err.message;
@@ -57,7 +59,7 @@ class CompanyStore {
         this.error = String(err);
       }
     } finally {
-      this.detailsLoading = false;
+      this.isFetching = false;
     }
   }
 
@@ -84,6 +86,7 @@ class CompanyStore {
         throw new Error('Failed to update company');
       }
       this.company = await response.json();
+      this.error = '';
     } catch (err: unknown) {
       if (err instanceof Error) {
         this.error = err.message;
@@ -131,7 +134,7 @@ class CompanyStore {
       }
 
       const imageData = await response.json();
-
+      this.photoError = '';
       if (this.company) {
         const index = this.company.photos.findIndex(
           (photo) => photo.name === tempId
@@ -147,9 +150,9 @@ class CompanyStore {
         );
       }
       if (err instanceof Error) {
-        this.error = err.message;
+        this.photoError = err.message;
       } else {
-        this.error = String(err);
+        this.photoError = String(err);
       }
     } finally {
       this.photoLoading = false;
@@ -179,15 +182,16 @@ class CompanyStore {
             },
           }
         );
+        this.photoError = '';
         if (!response.ok) {
           throw new Error('Failed to delete image');
         }
       } catch (err: unknown) {
         this.company.photos = backupPhotos;
         if (err instanceof Error) {
-          this.error = err.message;
+          this.photoError = err.message;
         } else {
-          this.error = String(err);
+          this.photoError = String(err);
         }
         throw err;
       } finally {

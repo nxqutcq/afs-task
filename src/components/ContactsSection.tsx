@@ -88,57 +88,66 @@ export const ContactsSection = observer(() => {
 
   return (
     <div className="content__item">
-      {editMode ? (
-        <div>
-          {errorMessage && <div className="error">{errorMessage}</div>}
-          <label>
-            Responsible person:
-            <input value={fullName} onChange={handleFullNameChange} />
-          </label>
-          <label>
-            Phone number:
-            <input value={phone} onChange={handlePhoneChange} />
-          </label>
-          <label>
-            E-mail:
-            <input value={email} onChange={handleEmailChange} />
-          </label>
-          <div className="company-card__buttons">
-            <button onClick={handleSave}>Save changes</button>
-            <button
-              onClick={() => {
-                resetForm();
-                setEditMode(false);
-              }}
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
+      {contactsStore.error && (
+        <div className="error">{contactsStore.error}</div>
+      )}
+      {contactsStore.isFetching ? (
+        <div className="loader"></div>
       ) : (
-        <div className="content__item__contact">
-          <div className="content__item__contact-header">
-            <span>Contacts</span>
-            <div
-              onClick={() => setEditMode(true)}
-              className="company-card__view-btn"
-            >
-              <Edit width={16} height={16} />
-              <span>Edit</span>
-            </div>
-          </div>
-          <div className="content__item__contact-footer">
+        <>
+          {editMode ? (
             <div>
-              <span>Responsible person: </span>
-              <span>
-                {contactsStore.contacts?.firstname}{' '}
-                {contactsStore.contacts?.lastname}
-              </span>
+              {errorMessage && <div className="error">{errorMessage}</div>}
+              <label>
+                Responsible person:
+                <input value={fullName} onChange={handleFullNameChange} />
+              </label>
+              <label>
+                Phone number:
+                <input value={phone} onChange={handlePhoneChange} />
+              </label>
+              <label>
+                E-mail:
+                <input value={email} onChange={handleEmailChange} />
+              </label>
+              <div className="company-card__buttons">
+                <button onClick={handleSave}>Save changes</button>
+                <button
+                  onClick={() => {
+                    resetForm();
+                    setEditMode(false);
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
-            <span>Phone number: {contactsStore.contacts?.phone}</span>
-            <span>E-mail: {contactsStore.contacts?.email}</span>
-          </div>
-        </div>
+          ) : (
+            <div className="content__item__contact">
+              <div className="content__item__contact-header">
+                <span>Contacts</span>
+                <div
+                  onClick={() => setEditMode(true)}
+                  className="company-card__view-btn"
+                >
+                  <Edit width={16} height={16} />
+                  <span>Edit</span>
+                </div>
+              </div>
+              <div className="content__item__contact-footer">
+                <div>
+                  <span>Responsible person: </span>
+                  <span>
+                    {contactsStore.contacts?.firstname}{' '}
+                    {contactsStore.contacts?.lastname}
+                  </span>
+                </div>
+                <span>Phone number: {contactsStore.contacts?.phone}</span>
+                <span>E-mail: {contactsStore.contacts?.email}</span>
+              </div>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

@@ -5,8 +5,22 @@ import { Edit } from './shared/icons/Edit';
 import { companyId, token } from '../constants';
 import { companyStore } from '../store/CompanyStore';
 import { observer } from 'mobx-react-lite';
+import { SingleSelect } from './shared/SingleSelect';
+import { MultiSelect } from './shared/MultiSelect';
+import { CustomDatePicker } from './shared/CustomDatePicker';
 
 export const CompanyDetails = observer(() => {
+  const singleOptions = [
+    { label: 'Partnership', value: 'partnership' },
+    { label: 'Sole Proprietorship', value: 'sole_proprietorship' },
+    { label: 'Limited Liability Company', value: 'limited_liability_company' },
+  ];
+
+  const multiOptions = [
+    { label: 'Funeral Home', value: 'funeral_home' },
+    { label: 'Logistics services', value: 'logistics_services' },
+    { label: 'Burial care Contractor', value: 'burial_care_contractor' },
+  ];
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -28,41 +42,57 @@ export const CompanyDetails = observer(() => {
     }
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setFormData({ ...formData, [e.target.name]: e.target.value });
+  // };
 
   const handleSave = async () => {
     await companyStore.updateCompany(formData, companyId, token);
     setEditMode(false);
   };
 
-  if (companyStore.error) return <div>Error: {companyStore.error}</div>;
   const issueDate = companyStore.company?.contract?.issue_date;
   return (
     <div className="content__item">
-      {companyStore.detailsLoading ? (
-        <div>Loading details</div>
+      {companyStore.error && <div className="error">{companyStore.error}</div>}
+      {companyStore.isFetching ? (
+        <div className="loader"></div>
       ) : (
         <div className="company-card">
           {editMode ? (
             <div className="company-card__edit">
-              <label>
-                Краткое название:
-                <input
-                  name="shortName"
-                  value={formData.shortName}
-                  onChange={handleChange}
-                />
-              </label>
-              <label>
-                Тип организации:
-                <input
-                  name="businessEntity"
-                  value={formData.businessEntity}
-                  onChange={handleChange}
-                />
-              </label>
+              <div>
+                <div className="company-card__view">
+                  <div className="company-card__view__header">
+                    <span className="company-card__view__header-details">
+                      Company details
+                    </span>
+                  </div>
+                  <p>
+                    <span>Agreement number:</span>{' '}
+                    <input
+                      type="text"
+                      value={companyStore.company?.contract.no}
+                    />{' '}
+                    <span>Date: </span>
+                    <CustomDatePicker />
+                  </p>
+                  <p>
+                    <span>Business entity: </span>{' '}
+                    <SingleSelect
+                      options={singleOptions}
+                      defaultValue="partnership"
+                    />
+                  </p>
+                  <p>
+                    <span>Company type: </span>{' '}
+                    <MultiSelect
+                      options={multiOptions}
+                      defaultSelected={['funeral_home', 'logistics_services']}
+                    />
+                  </p>
+                </div>
+              </div>
               <div className="company-card__buttons">
                 <button onClick={handleSave}>Сохранить</button>
                 <button onClick={() => setEditMode(false)}>Отмена</button>

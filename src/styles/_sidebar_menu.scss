@@ -1,4 +1,17 @@
 .menu {
+  
+.sidebar__menu-item-link {
+  transition: background-color 0.3s;
+}
+
+.sidebar__menu-item-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar__menu-item-link.active {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
   display: flex;
   padding-inline: 6px;
   padding-block: 20px;

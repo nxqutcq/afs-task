@@ -6,7 +6,7 @@ class ContactsStore {
   loading: boolean = false;
   error: string = '';
   token: string | null = null;
-
+  isFetching: boolean = false;
   constructor() {
     makeAutoObservable(this);
   }
@@ -33,7 +33,7 @@ class ContactsStore {
   }
 
   async fetchContact(contactId: string, username: string) {
-    this.loading = true;
+    this.isFetching = true;
     try {
       const token = await this.ensureAuthToken(username);
       const response = await fetch(
@@ -49,6 +49,7 @@ class ContactsStore {
         throw new Error('Failed to fetch contact');
       }
       this.contacts = await response.json();
+      this.error = '';
     } catch (err: unknown) {
       if (err instanceof Error) {
         this.error = err.message;
@@ -56,7 +57,7 @@ class ContactsStore {
         this.error = String(err);
       }
     } finally {
-      this.loading = false;
+      this.isFetching = false;
     }
   }
 
@@ -89,6 +90,7 @@ class ContactsStore {
         throw new Error('Failed to update contact');
       }
       this.contacts = await response.json();
+      this.error = '';
     } catch (err: unknown) {
       if (backupContacts) {
         this.contacts = backupContacts;

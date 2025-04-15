@@ -2,6 +2,25 @@
   display: flex;
 }
 
+.sidebar__nav-item-link {
+  transition: background-color 0.3s;
+}
+
+.sidebar__nav-item-link:hover {
+  background-color: rgb(59, 59, 59);
+}
+
+.sidebar__nav-item-link.active {
+  background-color: rgb(59, 59, 59);
+  color: #fff;
+  border-radius: 4px;
+}
+
+.sidebar.collapsed {
+  width: 0;
+  padding: 0;
+}
+
 .sidebar {
   display: flex;
   align-items: start;
@@ -11,6 +30,9 @@
   padding-bottom: 24px;
   padding-top: 20px;
   padding-inline: 20px;
+  transition: width 0.2s ease, padding-inline 0.2s ease;
+  overflow: hidden;
+  box-sizing: border-box;
 
   &__divider--primary {
     width: 100%;
@@ -85,7 +107,7 @@
     font-size: 13px;
     line-height: 20px;
     letter-spacing: 0.48px;
-    
+
     &-text {
       width: 130px;
       height: 20px;

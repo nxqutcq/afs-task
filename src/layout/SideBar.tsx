@@ -7,22 +7,40 @@ import {
   SignOut,
   User,
 } from '../components/shared/icons';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { ROUTES } from '../routes';
 
 export const SideBar = () => {
+  const location = useLocation();
+
+  const isBriefcaseActive = location.pathname.startsWith('/company');
+
   return (
     <div className="sidebar-wrapper">
       <div className="menu">
         <div className="menu-header">
           <img src="/icons/OakTree.svg" height={36} width={36} alt="OakTree" />
           <div className="menu-icon-wrapper">
-            <NavLink to={ROUTES.ORGANIZATIONS}>
+            <NavLink
+              className={() =>
+                isBriefcaseActive
+                  ? 'sidebar__menu-item-link active'
+                  : 'sidebar__menu-item-link'
+              }
+              to={ROUTES.ORGANIZATIONS}
+            >
               <Briefcase height={20} color="white" width={20} />
             </NavLink>
           </div>
           <div className="menu-icon-wrapper">
-            <NavLink to={ROUTES.SEARCH}>
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? 'sidebar__menu-item-link active'
+                  : 'sidebar__menu-item-link'
+              }
+              to={ROUTES.SEARCH}
+            >
               <MagnifyingGlass height={20} width={20} />
             </NavLink>
           </div>
@@ -30,18 +48,32 @@ export const SideBar = () => {
         <hr className="menu__divider" />
         <div className="menu-footer">
           <div className="menu-icon-wrapper">
-            <NavLink to={ROUTES.SETTINGS}>
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? 'sidebar__menu-item-link active'
+                  : 'sidebar__menu-item-link'
+              }
+              to={ROUTES.SETTINGS}
+            >
               <Settings height={20} width={20} />
             </NavLink>
           </div>
           <div className="menu-icon-wrapper">
-            <NavLink to={ROUTES.SIGNOUT}>
+            <NavLink
+              className={({ isActive }) =>
+                isActive
+                  ? 'sidebar__menu-item-link active'
+                  : 'sidebar__menu-item-link'
+              }
+              to={ROUTES.SIGNOUT}
+            >
               <SignOut height={20} width={20} />
             </NavLink>
           </div>
         </div>
       </div>
-      <aside className="sidebar">
+      <aside className={`sidebar ${!isBriefcaseActive ? 'collapsed' : ''}`}>
         <div className="sidebar__content">
           <div className="sidebar_content_wrapper">
             <div className="sidebar__header">
@@ -51,19 +83,40 @@ export const SideBar = () => {
             <hr className="sidebar__divider--primary" />
             <nav className="sidebar__nav">
               <div className="sidebar__nav-item">
-                <NavLink to={ROUTES.ORGANIZATIONS}>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'sidebar__nav-item-link active'
+                      : 'sidebar__nav-item-link'
+                  }
+                  to={ROUTES.ORGANIZATIONS}
+                >
                   <Briefcase height={16} width={16} />
                   <span className="sidebar__nav-item-text">Organizations</span>
                 </NavLink>
               </div>
               <div className="sidebar__nav-item">
-                <NavLink to={ROUTES.CONTRACTORS}>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'sidebar__nav-item-link active'
+                      : 'sidebar__nav-item-link'
+                  }
+                  to={ROUTES.CONTRACTORS}
+                >
                   <Contractor height={16} width={16} />
                   <span className="sidebar__nav-item-text">Contractors</span>
                 </NavLink>
               </div>
               <div className="sidebar__nav-item">
-                <NavLink to={ROUTES.CLIENTS}>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'sidebar__nav-item-link active'
+                      : 'sidebar__nav-item-link'
+                  }
+                  to={ROUTES.CLIENTS}
+                >
                   <User height={16} width={16} />
                   <span className="sidebar__nav-item-text">Clients</span>
                 </NavLink>

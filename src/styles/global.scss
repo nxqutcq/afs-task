@@ -34,6 +34,18 @@ body {
 html {
   overflow-y: scroll;
 }
+
 .error {
   color: red;
+}
+
+.custom-date-input {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  color: black;
+}
+
+.react-datepicker__triangle {
+  display: none;
 }

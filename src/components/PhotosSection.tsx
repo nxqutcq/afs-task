@@ -41,51 +41,62 @@ export const PhotosSection = observer(() => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       />
-      <div className="content__item__photo-header">
-        <span>Photos</span>
-        <div
-          onClick={() => fileInputRef.current?.click()}
-          className="company-card__view-btn"
-        >
-          <AddPhoto width={16} height={16} />
-          <span>Add</span>
-        </div>
-        <input
-          ref={fileInputRef}
-          type="file"
-          style={{ display: 'none' }}
-          onChange={handleFileUpload}
-        />
-      </div>
-      <div className="content__item__photos">
-        {companyStore.company?.photos?.length ? (
-          companyStore.company.photos.map((photo, index) => (
+      {companyStore.isFetching ? (
+        <div className="loader"></div>
+      ) : (
+        <>
+          <div className="content__item__photo-header">
+            <span>Photos</span>
             <div
-              className="content__item__photos-item"
-              key={photo.thumbpath || index}
+              onClick={() => fileInputRef.current?.click()}
+              className="company-card__view-btn"
             >
-              <img
-                loading="lazy"
-                src={photo.thumbpath}
-                alt={`Photo ${index}`}
-                onClick={() => handleImageClick(photo.filepath)}
-              />
-              <div
-                className="content__item__photos-item-trash"
-                onClick={() => handleDeleteImage(photo.name)}
-              >
-                <Trash
-                  width={16}
-                  height={16}
-                  className="content__item__photos-item-trash-icon"
-                />
-              </div>
+              <AddPhoto width={16} height={16} />
+              <span>Add</span>
             </div>
-          ))
-        ) : (
-          <div className="content__item__photos-empty">No photos available</div>
-        )}
-      </div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              style={{ display: 'none' }}
+              onChange={handleFileUpload}
+            />
+          </div>
+          <div className="content__item__photos">
+            {companyStore.photoError && (
+              <div className="error">{companyStore.photoError}</div>
+            )}
+            {companyStore.company?.photos?.length ? (
+              companyStore.company.photos.map((photo, index) => (
+                <div
+                  className="content__item__photos-item"
+                  key={photo.thumbpath || index}
+                >
+                  <img
+                    loading="lazy"
+                    src={photo.thumbpath}
+                    alt={`Photo ${index}`}
+                    onClick={() => handleImageClick(photo.filepath)}
+                  />
+                  <div
+                    className="content__item__photos-item-trash"
+                    onClick={() => handleDeleteImage(photo.name)}
+                  >
+                    <Trash
+                      width={16}
+                      height={16}
+                      className="content__item__photos-item-trash-icon"
+                    />
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="content__item__photos-empty">
+                No photos available
+              </div>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 });
