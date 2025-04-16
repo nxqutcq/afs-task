@@ -10,7 +10,7 @@ export const Chevron = (props: SVGProps<SVGSVGElement>) => (
     <g clip-path="url(#clip0_8740_2174)">
       <path
         d="M13 4L7 10L13 16"
-        stroke="white"
+        stroke="currentColor"
         stroke-width="1.5"
         stroke-linecap="round"
         stroke-linejoin="round"

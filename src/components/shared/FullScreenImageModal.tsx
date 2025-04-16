@@ -22,7 +22,7 @@ export const FullScreenImageModal: FC<FullScreenImageModalProps> = ({
       >
         <img
           src={image}
-          alt="Полноэкранное изображение"
+          alt="Full screen image"
           className="full-screen-modal__image"
         />
         <button onClick={onClose} className="full-screen-modal__close">

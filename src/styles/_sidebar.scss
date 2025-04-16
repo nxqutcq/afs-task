@@ -4,6 +4,7 @@
 
 .sidebar__nav-item-link {
   transition: background-color 0.3s;
+  border-radius: 8px;
 }
 
 .sidebar__nav-item-link:hover {
@@ -13,7 +14,6 @@
 .sidebar__nav-item-link.active {
   background-color: rgb(59, 59, 59);
   color: #fff;
-  border-radius: 4px;
 }
 
 .sidebar.collapsed {
